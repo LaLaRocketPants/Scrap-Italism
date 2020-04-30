@@ -15,25 +15,20 @@ var hunger = 100;
 var energy = 300;
 var radiationTotal = 0;
 
-
-// function rngJesus() {
-//     var rng = Math.floor(Math.random() * 101);
-//     var totalSpecialRNG = Math.floor(Math.random () * totalSpecial);
-// }
-
 function searchAction() {
-    // Can't get it to work
-    // rngJesus();
+    let totalSpecialRNG = Math.floor(Math.random() * totalSpecial);    
 
-    // Searching for Caps
-    let totalSpecialRNG = Math.floor(Math.random() * totalSpecial);
-    moneyTotal += totalSpecialRNG;
-
-    if (totalSpecialRNG == 0 && energy >= 10) {
+    if (totalSpecialRNG == 0 && energy >= 10 && hunger >= 2 && thirst >= 1) {
+        thirst -= 1;
+        hunger -= 2;
+        energy -= 10;
         document.getElementById('historyLog').innerText = 'You found nothing! You are a loser!';
-    } else if (totalSpecialRNG >= 1 && energy >= 10) {
-        document.getElementById('moneyTotalDisplay').value = moneyTotal;
-        document.getElementById('moneyTotalDisplay').innerText = moneyTotal;
+    } else if (totalSpecialRNG >= 1 && energy >= 10 && hunger >= 2 && thirst >= 1) {
+        moneyTotal += totalSpecialRNG;
+        thirst -= 1;
+        hunger -= 2;
+        energy -= 10;
+        updateShit();
         document.getElementById('historyLog').innerText = 'You found ' + totalSpecialRNG + ' scrap!';
     } else {
         document.getElementById('historyLog').innerText = 'You are too tired to do anything';
@@ -48,34 +43,17 @@ function searchAction() {
 
         // If Endurance negates Radiation, flex.
         if (radiationChange <= 0) {
-            document.getElementById('radiationTotalDisplay').value = radiationTotal;
-            document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
+            updateShit();
             document.getElementById('historyLog2').innerText = " It was nothing your Endurance couldn't handle.";
 
         } else {
             radiationTotal += radiationChange;
-            document.getElementById('radiationTotalDisplay').value = radiationTotal;
-            document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
+            updateShit();
             document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
             }
 
     } else {
         document.getElementById('historyLog2').innerText = " The area is safe.";
-    }
-
-    // Needs Ticks
-    if (energy >= 10) {
-        thirst -= 1;
-        document.getElementById('thirstTotalDisplay').value = thirst;
-        document.getElementById('thirstTotalDisplay').innerText = thirst;
-
-        hunger -= 2;
-        document.getElementById('hungerTotalDisplay').value = hunger;
-        document.getElementById('hungerTotalDisplay').innerText = hunger;
-
-        energy -= 10;
-        document.getElementById('energyTotalDisplay').value = energy;
-        document.getElementById('energyTotalDisplay').innerText = energy;
     }
 }
 
@@ -84,14 +62,7 @@ function drinkAction() {
         moneyTotal -= 25;
         thirst += 25;
         energy -= 10
-        document.getElementById('hungerTotalDisplay').value = hunger;
-        document.getElementById('hungerTotalDisplay').innerText = hunger;
-        document.getElementById('energyTotalDisplay').value = energy;
-        document.getElementById('energyTotalDisplay').innerText = energy;
-        document.getElementById('thirstTotalDisplay').value = thirst;
-        document.getElementById('thirstTotalDisplay').innerText = thirst;
-        document.getElementById('moneyTotalDisplay').value = moneyTotal;
-        document.getElementById('moneyTotalDisplay').innerText = moneyTotal;
+        updateShit();
         document.getElementById('historyLog').innerText = "You spent 25 scrap to buy Inca Kola at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!"';
     } else {
@@ -106,12 +77,7 @@ function eatAction() {
         hunger += 25;
         energy -= 10;
         thirst -= 1;
-        document.getElementById('energyTotalDisplay').value = energy;
-        document.getElementById('energyTotalDisplay').innerText = energy;
-        document.getElementById('hungerTotalDisplay').value = hunger;
-        document.getElementById('hungerTotalDisplay').innerText = hunger;
-        document.getElementById('moneyTotalDisplay').value = moneyTotal;
-        document.getElementById('moneyTotalDisplay').innerText = moneyTotal;
+        updateShit();
         document.getElementById('historyLog').innerText = "You spent 50 scrap to buy a burrito at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!"';
     } else {
@@ -127,29 +93,21 @@ function radAwayAction() {
         energy -= 100;
         hunger -= 2;
         thirst -= 1;
-        document.getElementById('radiationTotalDisplay').value = radiationTotal;
-        document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
-        document.getElementById('moneyTotalDisplay').value = moneyTotal;
-        document.getElementById('moneyTotalDisplay').innerText = moneyTotal;
+        updateShit();
         document.getElementById('historyLog').innerText = "You spent 100 scrap for a whiff of Cura'Sal. ";
         document.getElementById('historyLog2').innerText = 'You feel nauseated and tired.';
     } else {
-        document.getElementById('historyLog').innerText = "You are tossed out of the bar. ";
-        document.getElementById('historyLog2').innerText = "The bouncer sneers. 'Nothing's free!'";
+        document.getElementById('historyLog').innerText = "Banana Sauce does not provide free Cura'Sal. ";
+        document.getElementById('historyLog2').innerText = "Make more money, you poor bastard.";
     }
 }
 
 function shaqShlepAction() {
     if (hunger >= 20 && thirst >= 10) {
-        var energy = 300;
+        energy = 300;
         hunger -= 20;
         thirst -= 10;
-        document.getElementById('energyTotalDisplay').value = energy;
-        document.getElementById('energyTotalDisplay').innerText = energy;
-        document.getElementById('hungerTotalDisplay').value = hunger;
-        document.getElementById('hungerTotalDisplay').innerText = hunger;
-        document.getElementById('thirstTotalDisplay').value = thirst;
-        document.getElementById('thirstTotalDisplay').innerText = thirst;
+        updateShit();
         document.getElementById('historyLog').innerText = "You find somewhere safe to sleep. ";
     } else {
         document.getElementById('historyLog').innerText = "You are either too hangry or too thirsty to sleep. ";
@@ -163,14 +121,12 @@ function shaqShlepAction() {
 
         // If Endurance negates Radiation, flex.
         if (radiationChange <= 0) {
-            document.getElementById('radiationTotalDisplay').value = radiationTotal;
-            document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
+            updateShit();
             document.getElementById('historyLog2').innerText = "It was nothing your Endurance couldn't handle.";
 
         } else {
             radiationTotal += radiationChange;
-            document.getElementById('radiationTotalDisplay').value = radiationTotal;
-            document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
+            updateShit();
             document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
             }
     }
