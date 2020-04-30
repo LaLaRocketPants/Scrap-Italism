@@ -1,3 +1,4 @@
+//Halp. I ar shlep deprive
 var moneyTotal = 0;
 var historyLog = ''
 
