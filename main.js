@@ -55,4 +55,8 @@ function searchAction() {
         document.getElementById('historyLog2').innerText = " It was easy pickings.";
     }
 
+    // Needs Ticks
+    thirst -= 1;
+    hunger -= 2;
+
 }
