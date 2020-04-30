@@ -23,14 +23,30 @@
         <h1 class="p-2" id="radiationDisplay">
             Radiation: <span id="radiationTotalDisplay">0</span>
         </h1>
+
+        <h1 class="p-2" id="thirstDisplay">
+            Thirst: <span id="thirstTotalDisplay">100</span>
+        </h1>
+
+        <h1 class="p-2" id="hungerDisplay">
+            Hunger: <span id="hungerTotalDisplay">100</span>
+        </h1>
+
+        <h1 class="p-2" id="energyDisplay">
+            Energy: <span id="energyTotalDisplay">300</span>
+        </h1>
     </div>
 
     <div class="container-fluid d-flex flex-row" id="actionButtons">
         <button id="searchButton" onclick="searchAction()">Search</button>
 
-        <button>Drink Inca Kola</button>
+        <button id="drinkButton" onclick="drinkAction()">Drink Inca Kola</button>
 
-        <button>Buy & Use Cura'Sal</button>
+        <button id="eatButton" onclick="eatAction()">Eat Mystery Burrito</button>
+
+        <button id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>
+
+        <button id="shaqShlepButton" onclick="shaqShlepAction()">Go to Sleep</button>
     </div>
 
     <div id="history">
