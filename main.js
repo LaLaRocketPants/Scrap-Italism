@@ -17,18 +17,14 @@ var energy = 300;
 var radiationTotal = 0;
 
 function searchAction() {
-    let totalSpecialRNG = Math.floor(Math.random() * totalSpecial);    
+    let totalSpecialRNG = Math.floor(Math.random() * totalSpecial);
 
     if (totalSpecialRNG == 0 && energy >= 10 && hunger >= 2 && thirst >= 1) {
-        thirst -= 1;
-        hunger -= 2;
-        energy -= 10;
+        needsOneTick();
         document.getElementById('historyLog').innerText = 'You found nothing! You are a loser!';
     } else if (totalSpecialRNG >= 1 && energy >= 10 && hunger >= 2 && thirst >= 1) {
         moneyTotal += totalSpecialRNG;
-        thirst -= 1;
-        hunger -= 2;
-        energy -= 10;
+        needsOneTick();
         updateShit();
         document.getElementById('historyLog').innerText = 'You found ' + totalSpecialRNG + ' scrap!';
     } else {
@@ -59,7 +55,7 @@ function searchAction() {
 }
 
 function drinkAction() {
-    if (moneyTotal >= 25) {
+    if (moneyTotal >= 25 && energy >= 10 && hunger >= 1 && thirst >= 2) {
         moneyTotal -= 25;
         thirst += 25;
         energy -= 10
@@ -73,7 +69,7 @@ function drinkAction() {
 }
 
 function eatAction() {
-    if (moneyTotal >= 50 && thirst >= 1) {
+    if (moneyTotal >= 50 && thirst >= 1 && energy >= 10) {
         moneyTotal -= 50;
         hunger += 25;
         energy -= 10;
@@ -88,7 +84,7 @@ function eatAction() {
 }
 
 function radAwayAction() {
-    if (moneyTotal >= 100 && hunger >= 2 && thirst >=1 ) {
+    if (moneyTotal >= 100 && hunger >= 2 && thirst >=1 && energy >= 100) {
         moneyTotal -= 100;
         radiationTotal -= 50;
         energy -= 100;
@@ -131,17 +127,4 @@ function shaqShlepAction() {
             document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
             }
     }
-}
-
-function updateShit() {
-    document.getElementById('energyTotalDisplay').value = energy;
-    document.getElementById('energyTotalDisplay').innerText = energy;
-    document.getElementById('hungerTotalDisplay').value = hunger;
-    document.getElementById('hungerTotalDisplay').innerText = hunger;
-    document.getElementById('thirstTotalDisplay').value = thirst;
-    document.getElementById('thirstTotalDisplay').innerText = thirst;
-    document.getElementById('radiationTotalDisplay').value = radiationTotal;
-    document.getElementById('radiationTotalDisplay').innerText = radiationTotal;
-    document.getElementById('moneyTotalDisplay').value = moneyTotal;
-    document.getElementById('moneyTotalDisplay').innerText = moneyTotal;
 }
