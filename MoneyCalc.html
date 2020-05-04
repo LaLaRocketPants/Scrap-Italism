@@ -16,43 +16,50 @@
     <script src="pastebin.js"></script>
 
 </head>
-<body>
-    <div class="container-fluid d-flex flex-row">
-        <h1 class="p-2" id="moneyDisplay">
-            Scrap: <span id="moneyTotalDisplay">0</span>
-        </h1>
-
-        <h1 class="p-2" id="radiationDisplay">
-            Radiation: <span id="radiationTotalDisplay">0</span>
-        </h1>
-
-        <h1 class="p-2" id="thirstDisplay">
-            Thirst: <span id="thirstTotalDisplay">100</span>
-        </h1>
-
-        <h1 class="p-2" id="hungerDisplay">
-            Hunger: <span id="hungerTotalDisplay">100</span>
-        </h1>
-
-        <h1 class="p-2" id="energyDisplay">
-            Energy: <span id="energyTotalDisplay">300</span>
-        </h1>
+<body class="bg-dark text-light">
+    <div class="container-fluid" id="characterUI">
+        <div class="row p-3">
+            <h2>
+                Scrap: <span id="scrapDisplay">0</span>
+                Radiation: <span id="radiationDisplay">0</span>
+                Thirst: <span id="thirstDisplay">100</span>
+                Hunger: <span id="hungerDisplay">100</span>
+                Energy: <span id="energyDisplay">300</span>
+            </h2>
+        </div>
     </div>
 
-    <div class="container-fluid d-flex flex-row" id="actionButtons">
-        <button id="searchButton" onclick="searchAction()">Search</button>
-
-        <button id="drinkButton" onclick="drinkAction()">Drink Inca Kola</button>
-
-        <button id="eatButton" onclick="eatAction()">Eat Mystery Burrito</button>
-
-        <button id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>
-
-        <button id="shaqShlepButton" onclick="shaqShlepAction()">Go to Sleep</button>
+    <div class="container-fluid">
+        <div class="row p-3">
+            <h3 id="characterStats">
+                Strength: <span id="strengthDisplay">1</span>
+                Constitution: <span id="constitutionDisplay">1</span>
+                Wisdom: <span id="wisdomDisplay">1</span>
+                Dexterity: <span id="dexterityDisplay">1</span>
+                Intelligence: <span id="intelligenceDisplay">1</span>
+                Charisma: <span id="charismaDisplay">1</span>
+            </h3>
+        </div>
     </div>
 
-    <div id="history">
-        <p><span id="historyLog">You are just vibin'.</span><span id="historyLog2"> It's pretty safe.</span></p>
+    <div class="container-fluid" id="actionButtons">
+        <div class="row p-3">
+            <button id="searchButton" onclick="searchAction()">Search</button>
+
+            <button id="drinkButton" onclick="drinkAction()">Drink Inca Kola</button>
+
+            <button id="eatButton" onclick="eatAction()">Eat Mystery Burrito</button>
+
+            <button id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>
+
+            <button id="shaqShlepButton" onclick="shaqShlepAction()">Go to Sleep</button>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="history">
+        <div class="row p-3">
+            <p><span id="historyLog">You are just vibin'.</span><span id="historyLog2"> It's pretty safe.</span></p>
+        </div>  
     </div>
 
     <!-- Bootstrap JS -->

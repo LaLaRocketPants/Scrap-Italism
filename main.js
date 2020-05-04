@@ -1,130 +1,113 @@
-//Halp. I ar shlep deprive
-var moneyTotal = 0;
-var historyLog = ''
+var historyLog = '';
 
-// Placeholder stats til we figure out something
-var strength = 1;
-var perception = 1;
-var endurance = 1;
-var charisma = 1;
-var intelligence = 1;
-var agility = 1;
-var luck = 1;
-var totalSpecial = strength + perception + endurance + charisma + intelligence + agility + luck;
-var thirst = 100;
-var hunger = 100;
-var energy = 300;
-var radiationTotal = 0;
+var player = new Object();
+player.strength = 1;
+player.constitution = 1;
+player.wisdom = 1;
+player.dexterity = 1;
+player.charisma = 1;
+player.intelligence = 1;
+player.totalStats = player.strength + player.constitution + player.wisdom + player.dexterity + player.charisma + player.intelligence;
+player.hunger = 100;
+player.thirst = 100;
+player.energy = 300;
+player.radiation = 0;
+player.scrap = 0;
+
 
 function searchAction() {
-    let totalSpecialRNG = Math.floor(Math.random() * totalSpecial);
+    let tSRNG = Math.floor(Math.random() * player.totalStats);
 
-    if (totalSpecialRNG == 0 && energy >= 10 && hunger >= 2 && thirst >= 1) {
+    if (player.energy >= 10 && player.hunger >= 2 && player.thirst >= 1 && tSRNG == 0) {
         needsOneTick();
         document.getElementById('historyLog').innerText = 'You found nothing! You are a loser!';
-    } else if (totalSpecialRNG >= 1 && energy >= 10 && hunger >= 2 && thirst >= 1) {
-        moneyTotal += totalSpecialRNG;
+
+    } else if (player.energy >= 10 && player.hunger >= 2 && player.thirst >= 1 && tSRNG >= 1) {
+        player.scrap += tSRNG;
         needsOneTick();
-        updateShit();
-        document.getElementById('historyLog').innerText = 'You found ' + totalSpecialRNG + ' scrap!';
+        document.getElementById('historyLog').innerText = 'You found ' + tSRNG + ' scrap!';
+
     } else {
         document.getElementById('historyLog').innerText = 'You are too tired to do anything';
     }
 
-    // Radiation Ticks - Works regardless of energy
-    let rng = Math.floor((Math.random() * 101) + luck);
-    rng - totalSpecial;
-
-    if (rng <= 25) {
-        let radiationChange = Math.floor((Math.random() * 5) + 1 - endurance);
-
-        // If Endurance negates Radiation, flex.
-        if (radiationChange <= 0) {
-            updateShit();
-            document.getElementById('historyLog2').innerText = " It was nothing your Endurance couldn't handle.";
-
-        } else {
-            radiationTotal += radiationChange;
-            updateShit();
-            document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
-            }
-
-    } else {
-        document.getElementById('historyLog2').innerText = " The area is safe.";
-    }
+    radiationOneTick();
+    updateNeeds();
 }
 
 function drinkAction() {
-    if (moneyTotal >= 25 && energy >= 10 && hunger >= 1 && thirst >= 2) {
-        moneyTotal -= 25;
-        thirst += 25;
-        energy -= 10
-        updateShit();
+    if (player.energy >= 10 && player.hunger >= 2 && player.scrap >= 5) {
+        needsOneTick();
+        player.scrap -= 5;
+        player.thirst += 26;
         document.getElementById('historyLog').innerText = "You spent 25 scrap to buy Inca Kola at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!"';
-    } else {
+
+    } else if (player.scrap <= 5){
         document.getElementById('historyLog').innerText = "You are tossed out of the bar. ";
         document.getElementById('historyLog2').innerText = "The bouncer sneers. 'Nothing's free!'";
+
+    } else {
+        document.getElementById('historyLog').innerText = "You're too tired to even go to the bar. ";
+        document.getElementById('historyLog2').innerText = "People laugh at you while you stumble in a tired daze.";
     }
+
+    updateNeeds();
 }
 
 function eatAction() {
-    if (moneyTotal >= 50 && thirst >= 1 && energy >= 10) {
-        moneyTotal -= 50;
-        hunger += 25;
-        energy -= 10;
-        thirst -= 1;
-        updateShit();
+    if (player.energy >= 10 && player.thirst >= 2 && player.scrap >= 10 ) {
+        needsOneTick();
+        player.scrap -= 10;        
+        player.hunger += 27;        
         document.getElementById('historyLog').innerText = "You spent 50 scrap to buy a burrito at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!"';
-    } else {
+
+    } else if (player.scrap <= 10) {
         document.getElementById('historyLog').innerText = "You are tossed out of the bar. ";
         document.getElementById('historyLog2').innerText = "The bouncer sneers. 'Nothing's free!'";
+
+    } else {
+        document.getElementById('historyLog').innerText = "You're too tired to even go to El Tiburón. ";
+        document.getElementById('historyLog2').innerText = "People laugh at you while you stumble in a tired daze.";
     }
+
+    updateNeeds();
 }
 
 function radAwayAction() {
-    if (moneyTotal >= 100 && hunger >= 2 && thirst >=1 && energy >= 100) {
-        moneyTotal -= 100;
-        radiationTotal -= 50;
-        energy -= 100;
-        hunger -= 2;
-        thirst -= 1;
-        updateShit();
-        document.getElementById('historyLog').innerText = "You spent 100 scrap for a whiff of Cura'Sal. ";
+    if (player.energy >= 100 && player.hunger>=2 && player.thirst >=1 && player.scrap >= 50) {
+        needsOneTick();
+        player.scrap -= 50;
+        player.radiation -= 50;
+        player.energy -= 90;
+        document.getElementById('historyLog').innerText = "You spent 50 scrap for a whiff of Cura'Sal. ";
         document.getElementById('historyLog2').innerText = 'You feel nauseated and tired.';
-    } else {
+
+    } else if (player.scrap <= 50) {
         document.getElementById('historyLog').innerText = "Banana Sauce does not provide free Cura'Sal. ";
         document.getElementById('historyLog2').innerText = "Make more money, you poor bastard.";
+
+    } else {
+        document.getElementById('historyLog').innerText = "Taking Cura'Sal under exhaustion may lead to comatose or heart failure. ";
+        document.getElementById('historyLog2').innerText = "Just go to sleep and take it in the morning.";
     }
+
+    updateNeeds();
 }
 
 function shaqShlepAction() {
-    if (hunger >= 20 && thirst >= 10) {
-        energy = 300;
-        hunger -= 20;
-        thirst -= 10;
-        updateShit();
+    if (player.energy <= 0 && player.hunger >= 20 && player.thirst >= 10) {
+        needsTenTick();
+        player.energy = 300;
         document.getElementById('historyLog').innerText = "You find somewhere safe to sleep. ";
-    } else {
+        
+    } else if (player.hunger <= 20 && player.thirst <= 10) {
         document.getElementById('historyLog').innerText = "You are either too hangry or too thirsty to sleep. ";
+
+    } else {
+        document.getElementById('historyLog').innerText = "You're not sleepy enough! Work harder!"
     }
 
-    let rng = Math.floor((Math.random() * 101) + luck);
-    rng - totalSpecial;
-
-    if (rng <= 50) {
-        let radiationChange = Math.floor((Math.random() * 5) + 1 - endurance);
-
-        // If Endurance negates Radiation, flex.
-        if (radiationChange <= 0) {
-            updateShit();
-            document.getElementById('historyLog2').innerText = "It was nothing your Endurance couldn't handle.";
-
-        } else {
-            radiationTotal += radiationChange;
-            updateShit();
-            document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
-            }
-    }
+    updateNeeds();
 }
