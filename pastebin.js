@@ -1,4 +1,4 @@
-function updateNeeds() {
+function updateUI() {
     document.getElementById('energyDisplay').innerText = player.energy;
     document.getElementById('hungerDisplay').innerText = player.hunger;
     document.getElementById('thirstDisplay').innerText = player.thirst;
@@ -10,12 +10,19 @@ function updateNeeds() {
     document.getElementById('dexterityDisplay').innerText = player.dexterity;
     document.getElementById('intelligenceDisplay').innerText = player.intelligence;
     document.getElementById('charismaDisplay').innerText = player.charisma;
+    document.getElementById('dayDisplay').innerText = currentDay;
 }
 
 function needsOneTick() {
     player.thirst -= 2;
     player.hunger -= 1;
     player.energy -= 10;
+}
+
+function needsFiveTick() {
+    player.thirst -= 10;
+    player.hunger -= 5;
+    player.energy -= 50;
 }
 
 function needsTenTick() {
@@ -25,41 +32,41 @@ function needsTenTick() {
 }
 
 function radiationOneTick() {
-    let rng = Math.floor((Math.random() * 101) + player.wisdom);
-    rng - player.totalStats;
+    let rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
+    rnJesus - player.totalStats;
 
-    if (rng <= 25) {
+    if (rnJesus <= 25) {
         let radiationChange = Math.floor((Math.random() * 5) + 1 - player.constitution);
 
         if (radiationChange <= 0) {
-            document.getElementById('historyLog2').innerText = " You endured the radiation.";
+            document.getElementById('historyLog2').innerText = "Your body resisted any radiation";
 
         } else {
             player.radiation += radiationChange;
-            document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
+            document.getElementById('historyLog2').innerText = "You have gained " + radiationChange + " Rads!";
             }
 
     } else {
-        document.getElementById('historyLog2').innerText = " There was no radiation in the zone.";
+        document.getElementById('historyLog2').innerText = "There was no radiation in the zone.";
     }
 }
 
 function radiationTenTick() {
-    let rng = Math.floor((Math.random() * 101) + player.wisdom);
-    rng - player.totalStats;
+    let rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
+    rnJesus - player.totalStats;
 
-    if (rng <= 50) {
+    if (rnJesus <= 50) {
         let radiationChange = Math.floor((Math.random() * 50) + 1 - player.constitution);
 
         if (radiationChange <= 0) {
-            document.getElementById('historyLog2').innerText = " You endured the radiation.";
+            document.getElementById('historyLog2').innerText = "Your body resisted any radiation.";
 
         } else {
             player.radiation += radiationChange;
-            document.getElementById('historyLog2').innerText = " You have gained " + radiationChange + " Rads!";
+            document.getElementById('historyLog2').innerText = "You have gained " + radiationChange + " Rads!";
             }
 
     } else {
-        document.getElementById('historyLog2').innerText = " There was no radiation in the zone.";
+        document.getElementById('historyLog2').innerText = "There was no radiation in the zone.";
     }
 }

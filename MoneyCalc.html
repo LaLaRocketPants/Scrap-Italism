@@ -20,10 +20,10 @@
     <div class="container-fluid" id="characterUI">
         <div class="row p-3">
             <h2>
-                Scrap: <span id="scrapDisplay">0</span>
-                Radiation: <span id="radiationDisplay">0</span>
-                Thirst: <span id="thirstDisplay">100</span>
-                Hunger: <span id="hungerDisplay">100</span>
+                Scrap: <span id="scrapDisplay">0</span> |
+                Radiation: <span id="radiationDisplay">0</span> |
+                Thirst: <span id="thirstDisplay">100</span> |
+                Hunger: <span id="hungerDisplay">100</span> |
                 Energy: <span id="energyDisplay">300</span>
             </h2>
         </div>
@@ -32,11 +32,11 @@
     <div class="container-fluid">
         <div class="row p-3">
             <h3 id="characterStats">
-                Strength: <span id="strengthDisplay">1</span>
-                Constitution: <span id="constitutionDisplay">1</span>
-                Wisdom: <span id="wisdomDisplay">1</span>
-                Dexterity: <span id="dexterityDisplay">1</span>
-                Intelligence: <span id="intelligenceDisplay">1</span>
+                Strength: <span id="strengthDisplay">1</span> |
+                Constitution: <span id="constitutionDisplay">1</span> |
+                Wisdom: <span id="wisdomDisplay">1</span> |
+                Dexterity: <span id="dexterityDisplay">1</span> |
+                Intelligence: <span id="intelligenceDisplay">1</span> |
                 Charisma: <span id="charismaDisplay">1</span>
             </h3>
         </div>
@@ -44,11 +44,13 @@
 
     <div class="container-fluid" id="actionButtons">
         <div class="row p-3">
-            <button id="searchButton" onclick="searchAction()">Search</button>
+            <button id="searchButton" onclick="searchAction()">Scavenge the Ruins</button>
 
             <button id="drinkButton" onclick="drinkAction()">Drink Inca Kola</button>
 
             <button id="eatButton" onclick="eatAction()">Eat Mystery Burrito</button>
+
+            <button id="mealButton" onclick="mealAction()">Dine at the Gourmet</button>
 
             <button id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>
 
@@ -56,12 +58,42 @@
         </div>
     </div>
 
-    <div class="container-fluid" id="history">
+    <div class="container-fluid" id="statButtons">
         <div class="row p-3">
-            <p><span id="historyLog">You are just vibin'.</span><span id="historyLog2"> It's pretty safe.</span></p>
+            <button id="strengthButton" onclick="strengthAction()">Do Heavylifting</button>
+
+            <button id="constitutionButton" onclick="constitutionAction()">Run Long Distance</button>
+
+            <button id="wisdomButton" onclick="wisdomAction()">Experiment</button>
+
+            <button id="DexterityButton" onclick="dexterityAction()">Practice crafting</button>
+
+            <button id="IntelligenceButton" onclick="intelligenceAction()">Study at school</button>
+
+            <button id="CharismaButton" onclick="charismaAction()">Practice making speeches</button>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="history">
+        <div class="column">
+            <p>
+                <span id="calendar">It's <span id="dayDisplay">Monday</span>. </span>
+            </p>
+            <p>
+                <span id="historyLog">You are just vibin'. </span>
+                <span id="historyLog2">It's pretty safe. </span>
+                
+            </p>
         </div>  
     </div>
 
+    <div class="container-fluid" id="saveLoad">
+        <div class="row p-3">
+            <button id="saveButton" onclick="saveGame()">Save</button>
+
+            <button id="loadButton" onclick="loadGame()">Load</button>
+        </div>
+    </div>
     <!-- Bootstrap JS -->
     <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
