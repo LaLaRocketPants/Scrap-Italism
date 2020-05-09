@@ -308,8 +308,7 @@ function intelligenceAction() {
         document.getElementById('historyLog2').innerText = ""
     }
 
-    updateUI();
-    
+    updateUI();    
 }
 
 function charismaAction() {
