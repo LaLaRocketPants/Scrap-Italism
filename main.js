@@ -64,7 +64,7 @@ function drinkAction() {
         radiationOneTick();
         player.scrap -= 5;
         player.thirst += 11;
-        document.getElementById('historyLog').innerText = "You spent 5 scrap to buy Inca Kola at the El Tiburón. ";
+        document.getElementById('historyLog').innerText = "You spent scrap to buy Inca Kola at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!" ';
 
     } else if (player.scrap <= 5){
@@ -122,6 +122,9 @@ function radAwayAction() {
         needsOneTick();
         player.scrap -= 50;
         player.radiation -= 50;
+        if (player.radiation <= 0) {
+            player.radiation = 0;
+        }
         player.energy -= 90;
         document.getElementById('historyLog').innerText = "You spent 50 scrap for a whiff of Cura'Sal. ";
         document.getElementById('historyLog2').innerText = 'You feel nauseated and tired.';
