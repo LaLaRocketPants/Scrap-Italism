@@ -13,25 +13,39 @@ function updateUI() {
     document.getElementById('charismaDisplay').innerText = player.charisma;
 
     document.getElementById('dayDisplay').innerText = currentDay;
-    if (dayTracker < 10) {
-        document.getElementById('dateDayDisplay').innerText = "0" + dayTracker;
+
+    if (dateTracker.dayTracker < 10) {
+        document.getElementById('dateDayDisplay').innerText = "0" + dateTracker.dayTracker;
+
     } else {
-        document.getElementById('dateDayDisplay').innerText = dayTracker;
+        document.getElementById('dateDayDisplay').innerText = dateTracker.dayTracker;
+
     }
-    if (monthTracker < 10) {
-        document.getElementById('dateMonthDisplay').innerText = "0" + monthTracker;
+    if (dateTracker.monthTracker < 10) {
+        document.getElementById('dateMonthDisplay').innerText = "0" + dateTracker.monthTracker;
+
     } else {
-        document.getElementById('dateMonthDisplay').innerText = monthTracker;
+        document.getElementById('dateMonthDisplay').innerText = dateTracker.monthTracker;
+
     }
-        document.getElementById('dateYearDisplay').innerText = yearTracker;
-    if (daysPassed == 0) {
+        document.getElementById('dateYearDisplay').innerText = dateTracker.yearTracker;
+
+    if (dateTracker.daysPassed == 0) {
         document.getElementById('daysPassed').innerText = "a few hours ";
-    } else if (daysPassed == 1) {
-        document.getElementById('daysPassed').innerText = daysPassed + " day ";
+
+    } else if (dateTracker.daysPassed == 1) {
+        document.getElementById('daysPassed').innerText = dateTracker.daysPassed + " day ";
+        
     } else {
-        document.getElementById('daysPassed').innerText = daysPassed + "days ";
+        document.getElementById('daysPassed').innerText = dateTracker.daysPassed + " days ";
     }
 
+    totalStats = player.strength + player.constitution + player.wisdom + player.dexterity + player.charisma + player.intelligence;
+    totalThirst = 90 + (player.constitution * 10);
+    totalHunger = 95 + (player.constitution * 5);
+    totalEnergy = 280 + (player.constitution * 20);
+
+    console.log(dateTracker.hourTracker);
 }
 
 function needsOneTick() {
@@ -41,26 +55,28 @@ function needsOneTick() {
 }
 
 function timeTableTick() {
-    hourTracker ++;
-    if (hourTracker >= 24) {
-        changeDay++;
-        if (changeDay >= 6) {
-            changeDay = 0;
+    dateTracker.hourTracker ++;
+    if (dateTracker.hourTracker >= 24) {
+        setDailyPrices();
+        dateTracker.hourTracker = 0;
+        dateTracker.changeDay++;
+        if (dateTracker.changeDay >= 6) {
+            dateTracker.changeDay = 0;
         }
-        currentDay = days[changeDay];
+        currentDay = days[dateTracker.changeDay];
 
-        dayTracker ++;
-        if (dayTracker >= 30) {
-            dayTracker = 1;
-            monthTracker ++;
+        dateTracker.dayTracker ++;
+        if (dateTracker.dayTracker >= 30) {
+            dateTracker.dayTracker = 1;
+            dateTracker.monthTracker ++;
         }
   
-        if (monthTracker >= 12) {
-            monthTracker = 1;
-            yearTracker ++;
+        if (dateTracker.monthTracker >= 12) {
+            dateTracker.monthTracker = 1;
+            dateTracker.yearTracker ++;
         }
 
-        daysPassed ++;
+        dateTracker.daysPassed ++;
     
         training.strength = false;    
         training.constitution = false;
@@ -72,11 +88,11 @@ function timeTableTick() {
 }
 
 function radiationOneTick() {
-    let rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
+    rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
     rnJesus - player.totalStats;
 
     if (rnJesus <= 25) {
-        let radiationChange = Math.floor((Math.random() * 5) + 1 - player.constitution);
+        radiationChange = Math.floor((Math.random() * 5) + 1 - player.constitution);
 
         if (radiationChange <= 0) {
             document.getElementById('historyLog2').innerText = "Your body resisted any radiation";
@@ -91,28 +107,12 @@ function radiationOneTick() {
     }
 }
 
-function radiationTenTick() {
-    let rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
-    rnJesus - player.totalStats;
-
-    if (rnJesus <= 50) {
-        let radiationChange = Math.floor((Math.random() * 50) + 1 - player.constitution);
-
-        if (radiationChange <= 0) {
-            document.getElementById('historyLog2').innerText = "Your body resisted any radiation.";
-
-        } else {
-            player.radiation += radiationChange;
-            document.getElementById('historyLog2').innerText = "You have gained " + radiationChange + " Rads!";
-            }
-
-    } else {
-        document.getElementById('historyLog2').innerText = "There was no radiation in the zone.";
-    }
-}
-
+// shopPrice = (1 to totalStats) - (player.cha/int/wis)
+// scavengePrice = (1 to totalStats * 2)
 function setDailyPrices() {
-    let tsRNJesus = Math.floor(Math.random() * ((player.luck + player.charisma + player.intelligence) / 3));
-    var shopPrice = Math.floor(Math.random() * totalStats - tsRNJesus);
-    var scavengePrice = Math.floor(Math.random() * (totalStats * 2));
+    let rnJesus = (player.wisdom + player.charisma + player.intelligence);
+    shopPrice = Math.floor(Math.random() * (totalStats - rnJesus)) + 1;
+    
+    rnJesus = totalStats * 2;
+    scavengePrice = Math.floor(Math.random() * rnJesus) + 1;
 }
