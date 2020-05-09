@@ -10,11 +10,15 @@ var player = {
     thirst: 100,
     energy: 300,
     radiation: 0,
-    scrap: 0
+    scrap: 0,
+    inventory: [
+
+    ]
 }
 var totalStats = player.strength + player.constitution + player.wisdom + player.dexterity + player.charisma + player.intelligence;
 var totalThirst = 90 + (player.constitution * 10);
 var totalHunger = 95 + (player.constitution * 5);
+var totalEnergy = 280 + (player.constitution * 20);
 
 
 //Tracks stat training success for the day. One success for each stat per day.
@@ -38,14 +42,21 @@ var days = [
     "Sunday"
 ]
 
-var changeDay = 0;
+var dateTracker = [
+    changeDay = 0,
+    hourTracker = 0,
+    dayTracker = 29,
+    monthTracker = 2,
+    yearTracker = 2302,
+    daysPassed = 0
+]
+
 var currentDay = days[changeDay];
 
-//Sets RNG for the Day
-
-//Shop Price sets how much scrap is used for each point of thirst and hunger
+//Variables for setting RNG, changes on sleepAction()
+//Sets how much scrap is used for each point of thirst and hunger
 var shopPrice = 1;
-//Scavenge Price sets the maximum possible scrap for scavenging the ruins
+//Sets the maximum possible scrap for scavenging the ruins
 var scavengePrice = 10;
 
 function searchAction() {
@@ -59,8 +70,9 @@ function searchAction() {
             document.getElementById('historyLog').innerText = 'You found ' + tsRNJesus + ' scrap! ';
         }
         
-        needsFiveTick();
+        for (let tickCounter = 1 ; tickCounter <= 5 ; tickCounter ++) needsOneTick(tickCounter);
         radiationOneTick();
+        hourTracker ++;
 
     } else {
         document.getElementById('historyLog').innerText = 'You are too tired to do anything. ';
@@ -69,14 +81,16 @@ function searchAction() {
     updateUI();
 }
 
+//Use 2 scrap for each point of Thirst and 1 scrap for each point of Hunger restored to max, multiplied by the daily shop price
 function restoreAction() {
     needsOneTick();
-    let tsRNJesus = (totalThirst - player.thirst) + (totalHunger - player.hunger);
-    tsRNJesus *= shopPrice;
+    let tsRNJesus = ((totalThirst - player.thirst - 2) + (totalHunger - player.hunger - 1)) * shopPrice;
     if (player.scrap >= tsRNJesus) {
         player.scrap -= tsRNJesus;
         player.hunger = totalHunger;
         player.thirst = totalThirst;
+
+        hourTracker ++;
 
         document.getElementById('historyLog').innerText = "You eat with the Rangers. ";
         document.getElementById('historyLog2').innerText = "You paid " + tsRNJesus + " scrap in exchange."
@@ -88,22 +102,24 @@ function restoreAction() {
         document.getElementById('historyLog2').innerText = "'As much as we'd like to help you, we don't have the luxury of charity."
     }
 
-    console.log(tsRNJesus);
     updateUI();
 }
 
+//Use excess scrap to gain more actions per day
 function mealAction() {
-    if (player.scrap >= 100) {
-        player.energy += 50;
+    if (player.scrap >= 200) {
+        player.energy += 100;
         player.hunger += 40;
         player.thirst += 20;
-        player.scrap -= 100;
+        player.scrap -= 200;
 
-        document.getElementById('historyLog').innerText = "You spend 100 caps to dine at the extravagant Gourmet. "
+        hourTracker ++;
+
+        document.getElementById('historyLog').innerText = "You spend 100 caps to dine at the extravagant Gourmet. The food was exquisite and you feel charged."
         document.getElementById('historyLog2').innerText = ""
 
     } else {
-        document.getElementById('historyLog').innerText = "The guards brandish their rifles at you. "
+        document.getElementById('historyLog').innerText = "The guards brandish their spears at you. "
         document.getElementById('historyLog2').innerText = " 'This is the Gourmet. And you can't afford it.'"
     }
 
@@ -119,6 +135,9 @@ function radAwayAction() {
             player.radiation = 0;
         }
         player.energy -= 90;
+
+        hourTracker ++;
+
         document.getElementById('historyLog').innerText = "You spent 50 scrap for a whiff of Cura'Sal. ";
         document.getElementById('historyLog2').innerText = 'You feel nauseated and tired.';
 
@@ -136,26 +155,13 @@ function radAwayAction() {
 
 function shaqShlepAction() {
     if (player.energy <= 50 && player.hunger >= 10 && player.thirst >= 20) {
-        needsTenTick();
+        for (let tickCounter = 1 ; tickCounter <= 10 ; tickCounter ++) needsOneTick(tickCounter);
         setDailyPrices();
-        let tsRNJesus = (player.strength + player.constitution) * 10;
-        player.energy = 280 + tsRNJesus;
+        player.energy = totalEnergy;    
+    
         document.getElementById('historyLog').innerText = "You find somewhere safe to sleep. ";
         document.getElementById('historyLog2').innerText = ""
 
-        changeDay++;
-        if (changeDay >= 6) {
-            changeDay = 0;
-        }
-    
-        training.strength = false;    
-        training.constitution = false;
-        training.wisdom = false;
-        training.dexterity = false;
-        training.intelligence = false;
-        training.charisma = false;
-        currentDay = days[changeDay];
-    
     } else if (player.hunger <= 10 && player.thirst <= 20) {
         document.getElementById('historyLog').innerText = "You are either too hangry or too thirsty to sleep. ";
         document.getElementById('historyLog2').innerText = ""
@@ -344,7 +350,7 @@ function saveGame() {
     var saveFile = {
         player1: player,
         training1: training,
-        changeDay1: changeDay
+        dateTracker1: dateTracker
     }
     localStorage.setItem("saveFile", JSON.stringify(saveFile));
 

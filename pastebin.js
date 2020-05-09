@@ -4,13 +4,34 @@ function updateUI() {
     document.getElementById('thirstDisplay').innerText = player.thirst;
     document.getElementById('radiationDisplay').innerText = player.radiation;
     document.getElementById('scrapDisplay').innerText = player.scrap;
+
     document.getElementById('strengthDisplay').innerText = player.strength;
     document.getElementById('constitutionDisplay').innerText = player.constitution;
     document.getElementById('wisdomDisplay').innerText = player.wisdom;
     document.getElementById('dexterityDisplay').innerText = player.dexterity;
     document.getElementById('intelligenceDisplay').innerText = player.intelligence;
     document.getElementById('charismaDisplay').innerText = player.charisma;
+
     document.getElementById('dayDisplay').innerText = currentDay;
+    if (dayTracker < 10) {
+        document.getElementById('dateDayDisplay').innerText = "0" + dayTracker;
+    } else {
+        document.getElementById('dateDayDisplay').innerText = dayTracker;
+    }
+    if (monthTracker < 10) {
+        document.getElementById('dateMonthDisplay').innerText = "0" + monthTracker;
+    } else {
+        document.getElementById('dateMonthDisplay').innerText = monthTracker;
+    }
+        document.getElementById('dateYearDisplay').innerText = yearTracker;
+    if (daysPassed == 0) {
+        document.getElementById('daysPassed').innerText = "a few hours ";
+    } else if (daysPassed == 1) {
+        document.getElementById('daysPassed').innerText = daysPassed + " day ";
+    } else {
+        document.getElementById('daysPassed').innerText = daysPassed + "days ";
+    }
+
 }
 
 function needsOneTick() {
@@ -19,16 +40,35 @@ function needsOneTick() {
     player.energy -= 10;
 }
 
-function needsFiveTick() {
-    player.thirst -= 10;
-    player.hunger -= 5;
-    player.energy -= 50;
-}
+function timeTableTick() {
+    hourTracker ++;
+    if (hourTracker >= 24) {
+        changeDay++;
+        if (changeDay >= 6) {
+            changeDay = 0;
+        }
+        currentDay = days[changeDay];
 
-function needsTenTick() {
-    player.thirst -= 20;
-    player.hunger -= 10;
-    player.energy -= 100;
+        dayTracker ++;
+        if (dayTracker >= 30) {
+            dayTracker = 1;
+            monthTracker ++;
+        }
+  
+        if (monthTracker >= 12) {
+            monthTracker = 1;
+            yearTracker ++;
+        }
+
+        daysPassed ++;
+    
+        training.strength = false;    
+        training.constitution = false;
+        training.wisdom = false;
+        training.dexterity = false;
+        training.intelligence = false;
+        training.charisma = false; 
+    }
 }
 
 function radiationOneTick() {
@@ -74,4 +114,5 @@ function radiationTenTick() {
 function setDailyPrices() {
     let tsRNJesus = Math.floor(Math.random() * ((player.luck + player.charisma + player.intelligence) / 3));
     var shopPrice = Math.floor(Math.random() * totalStats - tsRNJesus);
+    var scavengePrice = Math.floor(Math.random() * (totalStats * 2));
 }
