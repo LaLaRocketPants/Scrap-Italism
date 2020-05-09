@@ -16,6 +16,8 @@ var totalStats = player.strength + player.constitution + player.wisdom + player.
 var totalThirst = 90 + (player.constitution * 10);
 var totalHunger = 95 + (player.constitution * 5);
 
+
+//Tracks stat training success for the day. One success for each stat per day.
 var training = {
     strength: false,
     constitution: false,
@@ -38,10 +40,16 @@ var days = [
 
 var changeDay = 0;
 var currentDay = days[changeDay];
-var shopPrice = 5;
+
+//Sets RNG for the Day
+
+//Shop Price sets how much scrap is used for each point of thirst and hunger
+var shopPrice = 1;
+//Scavenge Price sets the maximum possible scrap for scavenging the ruins
+var scavengePrice = 10;
 
 function searchAction() {
-    let tsRNJesus = Math.floor(Math.random() * (totalStats * 5));
+    let tsRNJesus = Math.floor(Math.random() * (totalStats * scavengePrice));
 
     if (player.energy >= 50 && player.hunger >= 5 && player.thirst >= 10) {
         if (tsRNJesus == 0) {
@@ -61,46 +69,26 @@ function searchAction() {
     updateUI();
 }
 
-function drinkAction() {
-    if (player.energy >= 10 && player.hunger >= 2 && player.scrap >= 5) {
-        needsOneTick();
-        radiationOneTick();
-        player.scrap -= shopPrice;
-        player.thirst += 11;
-        document.getElementById('historyLog').innerText = "You spent scrap to buy Inca Kola at the El Tiburón. ";
-        document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!" ';
+function restoreAction() {
+    needsOneTick();
+    let tsRNJesus = (totalThirst - player.thirst) + (totalHunger - player.hunger);
+    tsRNJesus *= shopPrice;
+    if (player.scrap >= tsRNJesus) {
+        player.scrap -= tsRNJesus;
+        player.hunger = totalHunger;
+        player.thirst = totalThirst;
 
-    } else if (player.scrap <= 5){
-        document.getElementById('historyLog').innerText = "You are tossed out of the bar. ";
-        document.getElementById('historyLog2').innerText = "The bouncer sneers. 'Nothing's free!' ";
-
+        document.getElementById('historyLog').innerText = "You eat with the Rangers. ";
+        document.getElementById('historyLog2').innerText = "You paid " + tsRNJesus + " scrap in exchange."
     } else {
-        document.getElementById('historyLog').innerText = "You're too tired to even go to the bar. ";
-        document.getElementById('historyLog2').innerText = "People laugh at you while you stumble in a tired daze. ";
+        player.hunger += 1;
+        player.thirst += 2;
+        player.energy += 10;
+        document.getElementById('historyLog').innerText = "You're stopped by a member of the Rangers. ";
+        document.getElementById('historyLog2').innerText = "'As much as we'd like to help you, we don't have the luxury of charity."
     }
 
-    updateUI();
-}
-
-function eatAction() {
-    if (player.energy >= 10 && player.thirst >= 2 && player.scrap >= 10 ) {
-        needsOneTick();
-        radiationOneTick();
-        player.scrap -= 10;        
-        player.hunger += 22;
-        // Hooray for cannibalism. I mean, resource appropriating.
-        document.getElementById('historyLog').innerText = "You spent 10 scrap to buy a burrito at the El Tiburón. ";
-        document.getElementById('historyLog2').innerText = "The chef only smiles, 'The freshest ingredients' ";
-
-    } else if (player.scrap <= 10) {
-        document.getElementById('historyLog').innerText = "You are shooed away from the stand. ";
-        document.getElementById('historyLog2').innerText = "The chef frowns at you, 'There is no place for sloths like you.' ";
-
-    } else {
-        document.getElementById('historyLog').innerText = "You're too tired to even go to El Tiburón. ";
-        document.getElementById('historyLog2').innerText = "People laugh at you while you stumble in a tired daze. ";
-    }
-
+    console.log(tsRNJesus);
     updateUI();
 }
 
@@ -175,28 +163,6 @@ function shaqShlepAction() {
     } else {
         document.getElementById('historyLog').innerText = "You're not sleepy enough! Work harder!";
         document.getElementById('historyLog2').innerText = ""
-    }
-
-    updateUI();
-}
-
-function restoreAction() {
-    needsOneTick();
-    let tsRNJesus = (totalThirst - player.thirst) + (totalHunger - player.hunger);
-    tsRNJesus *= shopPrice;
-    if (player.scrap >= tsRNJesus) {
-        player.scrap -= tsRNJesus;
-        player.hunger = totalHunger;
-        player.thirst = totalThirst;
-
-        document.getElementById('historyLog').innerText = "You eat with the Rangers. ";
-        document.getElementById('historyLog2').innerText = "You paid " + tsRNJesus + " scrap in exchange."
-    } else {
-        player.hunger += 1;
-        player.thirst += 2;
-        player.energy += 10;
-        document.getElementById('historyLog').innerText = "You're stopped by a member of the Rangers. ";
-        document.getElementById('historyLog2').innerText = "'As much as we'd like to help you, we don't have the luxury of charity."
     }
 
     updateUI();

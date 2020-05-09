@@ -72,5 +72,6 @@ function radiationTenTick() {
 }
 
 function setDailyPrices() {
-    var shopPrice = Math.floor(Math.random() * 10 - ((player.luck + player.charisma + player.intelligence) / 10))
+    let tsRNJesus = Math.floor(Math.random() * ((player.luck + player.charisma + player.intelligence) / 3));
+    var shopPrice = Math.floor(Math.random() * totalStats - tsRNJesus);
 }
