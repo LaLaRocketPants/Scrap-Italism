@@ -13,6 +13,8 @@ var player = {
     scrap: 0
 }
 var totalStats = player.strength + player.constitution + player.wisdom + player.dexterity + player.charisma + player.intelligence;
+var totalThirst = 90 + (player.constitution * 10);
+var totalHunger = 95 + (player.constitution * 5);
 
 var training = {
     strength: false,
@@ -36,16 +38,17 @@ var days = [
 
 var changeDay = 0;
 var currentDay = days[changeDay];
+var shopPrice = 5;
 
 function searchAction() {
-    let tSRNG = Math.floor(Math.random() * (totalStats * 5));
+    let tsRNJesus = Math.floor(Math.random() * (totalStats * 5));
 
     if (player.energy >= 50 && player.hunger >= 5 && player.thirst >= 10) {
-        if (tSRNG == 0) {
+        if (tsRNJesus == 0) {
             document.getElementById('historyLog').innerText = 'You found nothing! You are a loser! ';
         } else {
-            player.scrap += tSRNG;
-            document.getElementById('historyLog').innerText = 'You found ' + tSRNG + ' scrap! ';
+            player.scrap += tsRNJesus;
+            document.getElementById('historyLog').innerText = 'You found ' + tsRNJesus + ' scrap! ';
         }
         
         needsFiveTick();
@@ -62,7 +65,7 @@ function drinkAction() {
     if (player.energy >= 10 && player.hunger >= 2 && player.scrap >= 5) {
         needsOneTick();
         radiationOneTick();
-        player.scrap -= 5;
+        player.scrap -= shopPrice;
         player.thirst += 11;
         document.getElementById('historyLog').innerText = "You spent scrap to buy Inca Kola at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = 'The barkeeper yells "You have to spend money to make money!" ';
@@ -84,7 +87,8 @@ function eatAction() {
         needsOneTick();
         radiationOneTick();
         player.scrap -= 10;        
-        player.hunger += 22;        
+        player.hunger += 22;
+        // Hooray for cannibalism. I mean, resource appropriating.
         document.getElementById('historyLog').innerText = "You spent 10 scrap to buy a burrito at the El Tiburón. ";
         document.getElementById('historyLog2').innerText = "The chef only smiles, 'The freshest ingredients' ";
 
@@ -105,6 +109,7 @@ function mealAction() {
         player.energy += 50;
         player.hunger += 40;
         player.thirst += 20;
+        player.scrap -= 100;
 
         document.getElementById('historyLog').innerText = "You spend 100 caps to dine at the extravagant Gourmet. "
         document.getElementById('historyLog2').innerText = ""
@@ -144,8 +149,9 @@ function radAwayAction() {
 function shaqShlepAction() {
     if (player.energy <= 50 && player.hunger >= 10 && player.thirst >= 20) {
         needsTenTick();
-        let tsRNG = (player.strength + player.constitution) * 10;
-        player.energy = 280 + tsRNG;
+        setDailyPrices();
+        let tsRNJesus = (player.strength + player.constitution) * 10;
+        player.energy = 280 + tsRNJesus;
         document.getElementById('historyLog').innerText = "You find somewhere safe to sleep. ";
         document.getElementById('historyLog2').innerText = ""
 
@@ -161,7 +167,7 @@ function shaqShlepAction() {
         training.intelligence = false;
         training.charisma = false;
         currentDay = days[changeDay];
-
+    
     } else if (player.hunger <= 10 && player.thirst <= 20) {
         document.getElementById('historyLog').innerText = "You are either too hangry or too thirsty to sleep. ";
         document.getElementById('historyLog2').innerText = ""
@@ -174,6 +180,31 @@ function shaqShlepAction() {
     updateUI();
 }
 
+function restoreAction() {
+    needsOneTick();
+    let tsRNJesus = (totalThirst - player.thirst) + (totalHunger - player.hunger);
+    tsRNJesus *= shopPrice;
+    if (player.scrap >= tsRNJesus) {
+        player.scrap -= tsRNJesus;
+        player.hunger = totalHunger;
+        player.thirst = totalThirst;
+
+        document.getElementById('historyLog').innerText = "You eat with the Rangers. ";
+        document.getElementById('historyLog2').innerText = "You paid " + tsRNJesus + " scrap in exchange."
+    } else {
+        player.hunger += 1;
+        player.thirst += 2;
+        player.energy += 10;
+        document.getElementById('historyLog').innerText = "You're stopped by a member of the Rangers. ";
+        document.getElementById('historyLog2').innerText = "'As much as we'd like to help you, we don't have the luxury of charity."
+    }
+
+    updateUI();
+}
+
+// Stat Increase. Chance of success is "(0 to max strength) + (failure count)/(max strength)"
+// 2 strength with 1 failure is "((0 to 2) + 1)/(2)"
+//If quotient is higher than dividend, succeed.
 function strengthAction() {
     if (player.energy >= 100 && player.hunger >= 20 && player.thirst >= 10 && training.strength == false) {
         let rnJesus = Math.floor(Math.random() * player.strength) + training.statBalance;

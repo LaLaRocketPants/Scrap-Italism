@@ -70,3 +70,7 @@ function radiationTenTick() {
         document.getElementById('historyLog2').innerText = "There was no radiation in the zone.";
     }
 }
+
+function setDailyPrices() {
+    var shopPrice = Math.floor(Math.random() * 10 - ((player.luck + player.charisma + player.intelligence) / 10))
+}
