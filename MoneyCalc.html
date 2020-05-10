@@ -17,86 +17,149 @@
 
 </head>
 <body class="bg-dark text-light">
-    <div class="container-fluid" id="characterUI">
-        <div class="row p-3">
-            <h2>
-                Scrap: <span id="scrapDisplay">0</span> |
-                Radiation: <span id="radiationDisplay">0</span> |
-                Thirst: <span id="thirstDisplay">100</span> |
-                Hunger: <span id="hungerDisplay">100</span> |
-                Energy: <span id="energyDisplay">300</span>
-            </h2>
-        </div>
-    </div>
-
     <div class="container-fluid">
-        <div class="row p-3">
-            <h3 id="characterStats">
-                Strength: <span id="strengthDisplay">1</span> |
-                Constitution: <span id="constitutionDisplay">1</span> |
-                Wisdom: <span id="wisdomDisplay">1</span> |
-                Dexterity: <span id="dexterityDisplay">1</span> |
-                Intelligence: <span id="intelligenceDisplay">1</span> |
-                Charisma: <span id="charismaDisplay">1</span>
-            </h3>
+        <div class="row">           
+            <div class="col" id="characterUI">
+                <h2 class="p-3" id="needsDisplay">
+                    <div class="col">
+                        Scrap: <span id="scrapDisplay">0</span>     
+                    </div>      
+                    
+                    <div class="col">
+                        Radiation: <span id="radiationDisplay">0</span>                        
+                    </div>
+
+                    <div class="col">
+                        Thirst: <span id="thirstDisplay">100</span>
+                    </div>
+
+                    <div class="col">
+                        Hunger: <span id="hungerDisplay">100</span>
+                    </div>
+
+                    <div class="col">
+                        Energy: <span id="energyDisplay">300</span>
+                    </div>
+                <h2>
+            </div>
+
+            <div class="col">
+                <h2 id="characterStats">
+                    <div class="col">
+                        Strength: <span id="strengthDisplay">1</span>
+                    </div>
+                    
+                    <div class="col">
+                        Constitution: <span id="constitutionDisplay">1</span>
+                    </div>
+                    
+                    <div class="col">
+                        Wisdom: <span id="wisdomDisplay">1</span>
+                    </div>
+                    
+                    <div class="col">
+                        Dexterity: <span id="dexterityDisplay">1</span>
+                    </div>
+                    
+                    <div class="col">
+                        Intelligence: <span id="intelligenceDisplay">1</span>
+                    </div>
+                    
+                    <div class="col">
+                        Charisma: <span id="charismaDisplay">1</span>
+                    </div>                    
+                </h2>
+            </div>
         </div>
     </div>
 
-    <div class="container-fluid" id="actionButtons">
-        <div class="row p-3">
-            <button id="searchButton" onclick="searchAction()">Scavenge the Ruins</button>
+    <div class="col btn-group" id="actionButtons">
+        <div class="col">
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light" id="searchButton" onclick="searchAction()">Scavenge the Ruins</button>
+            </div>                
 
-            <button id="drinkButton" onclick="priceCheck()">Check the Local Prices</button>
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light" id="drinkButton" onclick="priceCheck()">Check the Local Prices</button>
+            </div>                
 
-            <button id="restoreButton" onclick="restoreAction()">Go to the Mess Hall</button>           
-          
-            <button id="mealButton" onclick="mealAction()">Dine at the Gourmet</button>
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light" id="restoreButton" onclick="restoreAction()">Go to the Mess Hall</button>      
+            </div>                     
+        
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="mealButton" onclick="mealAction()">Dine at the Gourmet</button>
+            </div>                
 
-            <button id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>
-
-            <button id="eatButton" onclick="eatAction()">Eat some Rations</button>
-
-            <button id="shaqShlepButton" onclick="shaqShlepAction()">Go to Sleep</button>
-
-
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="radAwayButton" onclick="radAwayAction()">Buy & Use Cura'Sal</button>    
+            </div>
+        
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="eatButton" onclick="eatAction()">Eat some Rations</button> 
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="shaqShlepButton" onclick="shaqShlepAction()">Go to Sleep</button>
+            </div>
         </div>
-    </div>
 
-    <div class="container-fluid" id="statButtons">
-        <div class="row p-3">
-            <button id="strengthButton" onclick="strengthAction()">Do Heavylifting</button>
-
-            <button id="constitutionButton" onclick="constitutionAction()">Run Long Distance</button>
-
-            <button id="wisdomButton" onclick="wisdomAction()">Experiment</button>
-
-            <button id="DexterityButton" onclick="dexterityAction()">Practice crafting</button>
-
-            <button id="IntelligenceButton" onclick="intelligenceAction()">Study at school</button>
-
-            <button id="CharismaButton" onclick="charismaAction()">Practice making speeches</button>
+        <div class="col">
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="strengthButton" onclick="strengthAction()">Do Heavylifting</button>
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="constitutionButton" onclick="constitutionAction()">Run Long Distance</button>
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="wisdomButton" onclick="wisdomAction()">Experiment</button> 
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="DexterityButton" onclick="dexterityAction()">Practice crafting</button>
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="IntelligenceButton" onclick="intelligenceAction()">Study at school</button>
+            </div>
+            
+            <div class="col">
+                <button class="btn btn-default btn-block bg-light"  id="CharismaButton" onclick="charismaAction()">Practice making speeches</button>
+            </div>                    
         </div>
     </div>
 
     <div class="container-fluid" id="history">
-        <div class="column">
-            <p>
-                <span id="calendar">The date is <span id="dateDayDisplay">29</span>/<span id="dateMonthDisplay">02</span>/<span id="dateYearDisplay">2302</span>. It's <span id="dayDisplay">Monday</span>. It's been <span id="daysPassed">a few hours</span> since you arrived at El Paradiso.
-            </p>
-
-            <p>
-                <span id="historyLog">You are just vibin'. </span>
-                
-                <span id="historyLog2">It's pretty safe. </span>                
-            </p>
+        <div class="row">
+            <div class="col">
+                <p><span id="calendar">The date is <span id="dateDayDisplay">29</span>/
+                    <span id="dateMonthDisplay">02</span>/
+                    <span id="dateYearDisplay">2302</span>
+                    . It's <span id="dayDisplay">Monday</span>
+                    . It's been <span id="daysPassed">a few hours</span>
+                     since you arrived at El Paradiso.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <p>
+                    <span id="historyLog">You are just vibin'. </span>
+                    
+                    <span id="historyLog2">It's pretty safe. </span>                
+                </p>
+            </div>
         </div>  
     </div>
 
     <div class="container-fluid" id="saveLoad">
-        <div class="row p-3">
-            <button id="saveButton" onclick="saveGame()">Save</button>
+        <div class="row d-flex flex-row justify-content-center btn-group">            
+            <button class="btn btn-default btn-block bg-light" id="saveButton" onclick="saveGame()">Save</button>
 
-            <button id="loadButton" onclick="loadGame()">Load</button>
+            <button class="btn btn-default btn-block bg-light" id="loadButton" onclick="loadGame()">Load</button>            
         </div>
     </div>
     <!-- Bootstrap JS -->
