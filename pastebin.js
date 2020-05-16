@@ -54,7 +54,7 @@ function updateUI() {
     totalHunger = 95 + (player.constitution * 5);
     totalEnergy = 280 + (player.constitution * 20);
 
-    console.log(dateTracker.hourTracker);
+    console.log(player.luck);
 }
 
 function needsOneTick() {
@@ -95,15 +95,15 @@ function timeTableTick() {
         training.dexterity = false;
         training.intelligence = false;
         training.charisma = false; 
+        training.luck = false;
     }
 }
 
 function radiationOneTick() {
-    rnJesus = Math.floor((Math.random() * 101) + player.wisdom);
-    rnJesus - player.totalStats;
+    rnJesus = Math.floor((Math.random() * 100) + totalStats);
 
     if (rnJesus <= 25) {
-        radiationChange = Math.floor((Math.random() * 5) + 1 - player.constitution);
+        radiationChange = (Math.floor((Math.random() * totalStats)) + (1 - player.constitution));
 
         if (radiationChange <= 0) {
             document.getElementById('historyLog2').innerText = "Your body resisted any radiation";
@@ -116,32 +116,26 @@ function radiationOneTick() {
     } else {
         document.getElementById('historyLog2').innerText = "There was no radiation in the zone.";
     }
+
+    if (player.radiation <= 250) {
+        document.getElementById('historyLog3').innerText = 'You are healthy.';
+    } else if (player.radiation >= 251 && player.radiation <= 500) {
+        document.getElementById('historyLog3').innerText = 'Rashes are developing on your skin.';
+    } else if (player.radiation >= 501 && player.radiation <= 750) {
+        document.getElementById('historyLog3').innerText = 'You are dying.';
+    } else if (player.radiation >= 751 && player.radiation <= 1000) {
+        document.getElementById('historyLog3').innerText = 'Buy some Cura-Sal before its too late.';
+    }
 }
 
 // shopPrice = (1 to totalStats) - (player.cha/int/wis)
 // scavengePrice = (1 to totalStats * 2)
 function setDailyPrices() {
-    let rnJesus = (player.wisdom + player.charisma + player.intelligence);
-    shopPrice = Math.floor(Math.random() * (totalStats - rnJesus)) + 1;
+    shopPrice = ((Math.floor(Math.random() * 3)) + totalStats) - (player.charisma + player.luck);
+    if (shopPrice < 1) {
+        shopPrice = 1;
+    }
     
     rnJesus = totalStats * 2;
     scavengePrice = Math.floor(Math.random() * rnJesus) + 1;
-}
-
-function mortalCombat() {
-    document.getElementById('actionButton1').innerText = "Do Nothing";
-    document.getElementById('actionButton2').innerText = "Attack";
-    document.getElementById('actionButton3').innerText = "Defend";
-    document.getElementById('actionButton4').innerText = "Defend";
-    document.getElementById('actionButton5').innerText = "Defend";
-    document.getElementById('actionButton6').innerText = "Defend";
-    document.getElementById('actionButton7').innerText = "Defend";
-
-    document.getElementById('skillButton1').innerText = "Defend";
-    document.getElementById('actionButton2').innerText = "Defend";
-    document.getElementById('actionButton3').innerText = "Defend";
-    document.getElementById('actionButton4').innerText = "Defend";
-    document.getElementById('actionButton5').innerText = "Defend";
-    document.getElementById('actionButton6').innerText = "Defend";
-    document.getElementById('actionButton7').innerText = "Defend";
 }
