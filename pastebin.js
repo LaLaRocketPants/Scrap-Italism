@@ -1,3 +1,4 @@
+//Updates the UI elements like Stats and Needs, checks for Time.
 function updateUI() {
     document.getElementById('energyDisplay').innerText = player.energy;
     document.getElementById('hungerDisplay').innerText = player.hunger;
@@ -5,6 +6,7 @@ function updateUI() {
     document.getElementById('radiationDisplay').innerText = player.radiation;
     document.getElementById('scrapDisplay').innerText = player.scrap;
 
+    //The player does not get to see their luck stat.
     document.getElementById('strengthDisplay').innerText = player.strength;
     document.getElementById('constitutionDisplay').innerText = player.constitution;
     document.getElementById('wisdomDisplay').innerText = player.wisdom;
@@ -12,8 +14,11 @@ function updateUI() {
     document.getElementById('intelligenceDisplay').innerText = player.intelligence;
     document.getElementById('charismaDisplay').innerText = player.charisma;
 
+    document.getElementById('rationsCount').innerText = player.inventory["Rations"];
+
     document.getElementById('dayDisplay').innerText = currentDay;
 
+    //Checks for double digits in the day
     if (dateTracker.dayTracker < 10) {
         document.getElementById('dateDayDisplay').innerText = "0" + dateTracker.dayTracker;
 
@@ -21,6 +26,8 @@ function updateUI() {
         document.getElementById('dateDayDisplay').innerText = dateTracker.dayTracker;
 
     }
+
+    //Checks for double digits in month
     if (dateTracker.monthTracker < 10) {
         document.getElementById('dateMonthDisplay').innerText = "0" + dateTracker.monthTracker;
 
@@ -28,11 +35,13 @@ function updateUI() {
         document.getElementById('dateMonthDisplay').innerText = dateTracker.monthTracker;
 
     }
+        
         document.getElementById('dateYearDisplay').innerText = dateTracker.yearTracker;
 
+    //Prevents '0 days has passed since you arrived'
     if (dateTracker.daysPassed == 0) {
         document.getElementById('daysPassed').innerText = "a few hours ";
-
+    
     } else if (dateTracker.daysPassed == 1) {
         document.getElementById('daysPassed').innerText = dateTracker.daysPassed + " day ";
         
@@ -54,6 +63,7 @@ function needsOneTick() {
     player.energy -= 10;
 }
 
+//Passes one hour and updates day, month, and year
 function timeTableTick() {
     dateTracker.hourTracker ++;
     if (dateTracker.hourTracker >= 24) {
@@ -78,6 +88,7 @@ function timeTableTick() {
 
         dateTracker.daysPassed ++;
     
+        //Once new day has happened, training of stats can be restarted
         training.strength = false;    
         training.constitution = false;
         training.wisdom = false;
@@ -115,4 +126,22 @@ function setDailyPrices() {
     
     rnJesus = totalStats * 2;
     scavengePrice = Math.floor(Math.random() * rnJesus) + 1;
+}
+
+function mortalCombat() {
+    document.getElementById('actionButton1').innerText = "Do Nothing";
+    document.getElementById('actionButton2').innerText = "Attack";
+    document.getElementById('actionButton3').innerText = "Defend";
+    document.getElementById('actionButton4').innerText = "Defend";
+    document.getElementById('actionButton5').innerText = "Defend";
+    document.getElementById('actionButton6').innerText = "Defend";
+    document.getElementById('actionButton7').innerText = "Defend";
+
+    document.getElementById('skillButton1').innerText = "Defend";
+    document.getElementById('actionButton2').innerText = "Defend";
+    document.getElementById('actionButton3').innerText = "Defend";
+    document.getElementById('actionButton4').innerText = "Defend";
+    document.getElementById('actionButton5').innerText = "Defend";
+    document.getElementById('actionButton6').innerText = "Defend";
+    document.getElementById('actionButton7').innerText = "Defend";
 }
